@@ -4,10 +4,10 @@
 
 using namespace std;
 
-
+//Уравнение параболы, смещенной влево на 1 и вверх на 1
 float parabola(float x)
 {
-	return (x * x + 2 * x + 2);//(x+1)^2 + 1
+	return (x * x + 2 * x + 2); // (x+1)^2 + 1
 }
 
 int main()
