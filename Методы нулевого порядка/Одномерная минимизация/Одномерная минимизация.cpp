@@ -1,8 +1,14 @@
 ﻿#include <iostream>
-#include "fibonachi.h"
-
-
 using namespace std;
+
+
+typedef float (*func)(float x);
+
+#include "fibonachi.h";
+#include "dihotomia.h";
+
+
+
 
 //Уравнение параболы, смещенной влево на 1 и вверх на 1
 float parabola(float x)
@@ -12,7 +18,12 @@ float parabola(float x)
 
 int main()
 {
-	float e = fibonachi_extr(-10, 10, 0.001, *parabola);
-	cout << "x=" << e << "		y=" << parabola(e);
+	float e;
+	e = fibonachi_extr(-10, 10, 0.001, *parabola);
+	cout << "x=" << e << "		y=" << parabola(e) << endl;
+
+	e = dih_extr(-10, 10, 0.001, *parabola);
+	cout << "x=" << e << "		y=" << parabola(e) << endl;
+	
 	return 0;
 }

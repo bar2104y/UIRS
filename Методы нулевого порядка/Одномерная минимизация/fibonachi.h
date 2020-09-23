@@ -1,6 +1,5 @@
 #pragma once
 
-typedef float (*func)(float x);
 
 
 // Fn - n-ое число фибоначи
