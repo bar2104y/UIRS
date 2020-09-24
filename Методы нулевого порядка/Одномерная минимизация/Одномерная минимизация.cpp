@@ -6,6 +6,7 @@ typedef float (*func)(float x);
 
 #include "fibonachi.h";
 #include "dihotomia.h";
+#include "gold.h";
 
 
 
@@ -23,6 +24,9 @@ int main()
 	cout << "x=" << e << "		y=" << parabola(e) << endl;
 
 	e = dih_extr(-10, 10, 0.001, *parabola);
+	cout << "x=" << e << "		y=" << parabola(e) << endl;
+
+	e = gold_extr(-10, 10, 0.001, *parabola);
 	cout << "x=" << e << "		y=" << parabola(e) << endl;
 	
 	return 0;
