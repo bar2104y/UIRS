@@ -153,6 +153,7 @@
     <ClInclude Include="fibonachi.h" />
     <ClInclude Include="dihotomia.h" />
     <ClInclude Include="gold.h" />
+    <ClInclude Include="kv_intr.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
