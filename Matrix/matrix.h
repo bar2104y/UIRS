@@ -47,23 +47,37 @@ public:
 		FloatMatrix res = FloatMatrix(maxM, maxN);
 
 		for (unsigned int i = 0; i < this->m; i++)
-		{
 			for (unsigned int j = 0; j < this->n; j++)
 				res.matrix[i][j] = this->matrix[i][j];
-		}
 
 		for (unsigned int i = 0; i < m2.m; i++)
-		{
 			for (unsigned int j = 0; j < m2.n; j++)
 				res.matrix[i][j] += m2.matrix[i][j];
-		}
-
 		
 		return FloatMatrix(res.m,res.n, res.matrix);
 
 	}
-
-
+	FloatMatrix operator * (int k)
+	{
+		for (unsigned int i = 0; i < this->m; i++)
+			for (unsigned int j = 0; j < this->n; j++)
+				this->matrix[i][j] *= k;
+		return FloatMatrix(this->m, this->n, this->matrix);
+	}
+	FloatMatrix operator * (float k)
+	{
+		for (unsigned int i = 0; i < this->m; i++)
+			for (unsigned int j = 0; j < this->n; j++)
+				this->matrix[i][j] *= k;
+		return FloatMatrix(this->m, this->n, this->matrix);
+	}
+	FloatMatrix operator * (double k)
+	{
+		for (unsigned int i = 0; i < this->m; i++)
+			for (unsigned int j = 0; j < this->n; j++)
+				this->matrix[i][j] *= float(k);
+		return FloatMatrix(this->m, this->n, this->matrix);
+	}
 
 private:
 	unsigned int m, n;//строка, столбец
