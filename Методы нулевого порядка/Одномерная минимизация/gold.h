@@ -1,6 +1,8 @@
 #pragma once
+#include <cmath>
 
-#define gs 0.381966
+
+#define gs (3-sqrt(5))/2
 
 float gold_extr(float a, float b, float e, func f)
 {
