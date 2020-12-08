@@ -1,50 +1,52 @@
 ﻿
 #include <iostream>
+#include <time.h>
 
 #include "matrix.h"
 
 int main()
 {
-    
-    //FloatMatrix tmp = FloatMatrix(2, 5);
-    int k = 1;
-    int n = 3;
-    float row [3] = {1.0,2.0,3.0};
-    float** matrix = new float* [n];
-    for (unsigned int i = 0; i < n; i++)
+    /*
+    srand(time(NULL));
+    unsigned int m = 4;
+    float k = 1;
+    float** matrix = new float*[m];
+    for (unsigned int i = 0; i < m; i++)
     {
-        matrix[i] = new float[n];
-        for (unsigned int j = 0; j < n; j++) {
-            matrix[i][j] = k;
+        matrix[i] = new float[m];
+        for (unsigned int j = 0; j < m; j++){
+            matrix[i][j] = (float)(rand()%9+1.0);
             k++;
         }
+        k+=2;
+            
     }
-    FloatMatrix tmp = FloatMatrix(n, n, matrix);
-    tmp.FillFloat(2.0);
+  
+    FloatMatrix tmp = FloatMatrix(m,m, matrix);
     tmp.Print();
-    tmp.SetRow(row, 3, 1);
-    tmp.Print();
-    tmp.SetColumn(row, 3, 1);
-    tmp.SetElement(8.0, 1, 1);
-    tmp.Print();
+    //tmp.SwapLines(0, 1);
+    //tmp.Print();
+    FloatMatrix* tmp2 = new FloatMatrix(m, m);
+    tmp2 = tmp.Inverse();
+    tmp2->Print();
+
+    FloatMatrix tmp3 = *tmp2 * tmp;
+    tmp3.Print();*/
+
+    FloatVector* a = new FloatVector(3);
+    FloatVector* b = new FloatVector(3);
+    a->FillFloat(0.0);
+    b->FillFloat(0.0);
+    a->SetElement(1.0, 0);
+    b->SetElement(1.0, 1);
+
+    FloatVector* c = new FloatVector(3);
+    FloatVector** mass= new FloatVector* [2];
+    mass[0] = a;
+    mass[1] = b;
+
+    c = FloatVector::vecMultiply(mass, 3);
+    c->Print();
 
 
-    float d = tmp.Det();
-    cout << d << endl;
-
-    /*FloatMatrix tmp = FloatMatrix(3);
-    FloatMatrix tmp2 = FloatMatrix(5);
-    
-    tmp.FillFloat(2.0);
-    tmp2.FillFloat(3.0);
-
-    FloatMatrix tmp3 = tmp2 * 2;
-    FloatMatrix tmp4 = (tmp2 + tmp)*2;
-    tmp.Print();
-    tmp2.Print();
-    tmp3.Print();
-    tmp4.Print();*/
-
-   
-    
 }
