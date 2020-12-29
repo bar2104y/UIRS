@@ -2,21 +2,21 @@
 #include <iostream>
 #include <iomanip>
 /***
-Матрицы
-	+Сложение/вычитание
-	+Умножение на число
-	+Умножение на матрицу
-	+Детерминант
-	+Обратная
-	+Транспонированная
-	+Изменение размерности
-Векторы
-	+Сложение/вычитание
-	+Умножение на число
-	+Скалярное произведение
-	+-Векторное произведение
-	+Длина
-	+Изменение размера
+РњР°С‚СЂРёС†С‹
+	+РЎР»РѕР¶РµРЅРёРµ/РІС‹С‡РёС‚Р°РЅРёРµ
+	+РЈРјРЅРѕР¶РµРЅРёРµ РЅР° С‡РёСЃР»Рѕ
+	+РЈРјРЅРѕР¶РµРЅРёРµ РЅР° РјР°С‚СЂРёС†Сѓ
+	+Р”РµС‚РµСЂРјРёРЅР°РЅС‚
+	+РћР±СЂР°С‚РЅР°СЏ
+	+РўСЂР°РЅСЃРїРѕРЅРёСЂРѕРІР°РЅРЅР°СЏ
+	+РР·РјРµРЅРµРЅРёРµ СЂР°Р·РјРµСЂРЅРѕСЃС‚Рё
+Р’РµРєС‚РѕСЂС‹
+	+РЎР»РѕР¶РµРЅРёРµ/РІС‹С‡РёС‚Р°РЅРёРµ
+	+РЈРјРЅРѕР¶РµРЅРёРµ РЅР° С‡РёСЃР»Рѕ
+	+РЎРєР°Р»СЏСЂРЅРѕРµ РїСЂРѕРёР·РІРµРґРµРЅРёРµ
+	+-Р’РµРєС‚РѕСЂРЅРѕРµ РїСЂРѕРёР·РІРµРґРµРЅРёРµ
+	+Р”Р»РёРЅР°
+	+РР·РјРµРЅРµРЅРёРµ СЂР°Р·РјРµСЂР°
 ***/
 
 
@@ -26,7 +26,7 @@ template <typename T>
 class Matrix
 {
 public:
-	// Конструкторы/деструкторы
+	// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹/РґРµСЃС‚СЂСѓРєС‚РѕСЂС‹
 	Matrix();
 	Matrix(const Matrix& obj);
 	Matrix(unsigned int a);
@@ -34,20 +34,20 @@ public:
 	Matrix(unsigned int a, unsigned int b, T** ref);
 	~Matrix();
 
-	// Вывод информации на экран
+	// Р’С‹РІРѕРґ РёРЅС„РѕСЂРјР°С†РёРё РЅР° СЌРєСЂР°РЅ
 	void Print();
 	void PrintRow(unsigned int a);
 	void PrintColumn(unsigned int a);
 
 	T* GetCollumn(unsigned int a);
 
-	// Методы добавления информации
+	// РњРµС‚РѕРґС‹ РґРѕР±Р°РІР»РµРЅРёСЏ РёРЅС„РѕСЂРјР°С†РёРё
 	void FillFloat(T v);
 	void SetRow(T* line, unsigned int length, unsigned int k);
 	void SetColumn(T* column, unsigned int length, unsigned int k);
 	void SetElement(T e, unsigned int a, unsigned int b);
 
-	//Методы модификации матрицы
+	//РњРµС‚РѕРґС‹ РјРѕРґРёС„РёРєР°С†РёРё РјР°С‚СЂРёС†С‹
 	void Resize(unsigned int a, unsigned int b);
 	void SwapLines(unsigned int a, unsigned int b);
 
@@ -57,7 +57,7 @@ public:
 	T Minor(unsigned int a, unsigned int b);
 	T Det();
 
-	//Математические операции
+	//РњР°С‚РµРјР°С‚РёС‡РµСЃРєРёРµ РѕРїРµСЂР°С†РёРё
 	void Add(Matrix<T>* m2);
 	void Subtraction(Matrix<T>* m2);
 	static Matrix<T>* Multiplication(Matrix<T>* m1, Matrix<T>* m2);
@@ -86,7 +86,7 @@ public:
 			maxN = m2.n;
 			minN = this->n;
 		}
-		// Создать новую матрицу максимальной размерности и в нее класть результат
+		// РЎРѕР·РґР°С‚СЊ РЅРѕРІСѓСЋ РјР°С‚СЂРёС†Сѓ РјР°РєСЃРёРјР°Р»СЊРЅРѕР№ СЂР°Р·РјРµСЂРЅРѕСЃС‚Рё Рё РІ РЅРµРµ РєР»Р°СЃС‚СЊ СЂРµР·СѓР»СЊС‚Р°С‚
 
 		Matrix res = Matrix(maxM, maxN);
 
@@ -123,7 +123,7 @@ public:
 			maxN = m2.n;
 			minN = this->n;
 		}
-		// Создать новую матрицу максимальной размерности и в нее класть результат
+		// РЎРѕР·РґР°С‚СЊ РЅРѕРІСѓСЋ РјР°С‚СЂРёС†Сѓ РјР°РєСЃРёРјР°Р»СЊРЅРѕР№ СЂР°Р·РјРµСЂРЅРѕСЃС‚Рё Рё РІ РЅРµРµ РєР»Р°СЃС‚СЊ СЂРµР·СѓР»СЊС‚Р°С‚
 
 		Matrix res = Matrix(maxM, maxN);
 
@@ -149,7 +149,7 @@ public:
 		for (unsigned int i = 0; i < res.m; i++)
 			for (unsigned int j = 0; j < res.n; j++)
 				for (unsigned int k = 0; k < this->n; k++)
-					//Каждый элемент хаполняем по формуле res[i][j] = S(0,n-1)(this[i][k]*m2[k][j])
+					//РљР°Р¶РґС‹Р№ СЌР»РµРјРµРЅС‚ С…Р°РїРѕР»РЅСЏРµРј РїРѕ С„РѕСЂРјСѓР»Рµ res[i][j] = S(0,n-1)(this[i][k]*m2[k][j])
 					res.matrix[i][j] += this->matrix[i][k] * m2.matrix[k][j];
 		
 		return Matrix(res.m, res.n,res.matrix);
@@ -178,14 +178,14 @@ public:
 	}
 
 private:
-	unsigned int m, n;//строка, столбец
+	unsigned int m, n;//СЃС‚СЂРѕРєР°, СЃС‚РѕР»Р±РµС†
 	T** matrix;
 };
 
 /// <summary>
-/// Конструктор по умолчанию
+/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 /// </summary>
-/// <typeparam name="T">Базовый тип ячеек матрицы</typeparam>
+/// <typeparam name="T">Р‘Р°Р·РѕРІС‹Р№ С‚РёРї СЏС‡РµРµРє РјР°С‚СЂРёС†С‹</typeparam>
 template <typename T>
 Matrix<T>::Matrix()
 {
@@ -196,9 +196,9 @@ Matrix<T>::Matrix()
 	matrix[0][0] = 0;
 }
 /// <summary>
-/// Глубокий конструктор
+/// Р“Р»СѓР±РѕРєРёР№ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 /// </summary>
-/// <param name="obj">Экземпляр существующего объекта</param>
+/// <param name="obj">Р­РєР·РµРјРїР»СЏСЂ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµРіРѕ РѕР±СЉРµРєС‚Р°</param>
 template <typename T>
 Matrix<T>::Matrix(const Matrix& obj)
 {
@@ -214,10 +214,10 @@ Matrix<T>::Matrix(const Matrix& obj)
 
 }
 /// <summary>
-/// Конструктор квадратной матрицы, заполненной нулями
+/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРІР°РґСЂР°С‚РЅРѕР№ РјР°С‚СЂРёС†С‹, Р·Р°РїРѕР»РЅРµРЅРЅРѕР№ РЅСѓР»СЏРјРё
 /// </summary>
 /// <typeparam name="T"></typeparam>
-/// <param name="a">Размерность матрицы</param>
+/// <param name="a">Р Р°Р·РјРµСЂРЅРѕСЃС‚СЊ РјР°С‚СЂРёС†С‹</param>
 template <typename T>
 Matrix<T>::Matrix(unsigned int a)
 {
@@ -232,11 +232,11 @@ Matrix<T>::Matrix(unsigned int a)
 	}
 }
 /// <summary>
-/// Конструктор матрицы, заполненной нулями
+/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РјР°С‚СЂРёС†С‹, Р·Р°РїРѕР»РЅРµРЅРЅРѕР№ РЅСѓР»СЏРјРё
 /// </summary>
 /// <typeparam name="T"></typeparam>
-/// <param name="a">Количество строк</param>
-/// <param name="b">Количество столбцов</param>
+/// <param name="a">РљРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂРѕРє</param>
+/// <param name="b">РљРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚РѕР»Р±С†РѕРІ</param>
 template <typename T>
 Matrix<T>::Matrix(unsigned int a, unsigned int b)
 {
@@ -251,12 +251,12 @@ Matrix<T>::Matrix(unsigned int a, unsigned int b)
 	}
 }
 /// <summary>
-/// Создание матрицы с референсного массива
+/// РЎРѕР·РґР°РЅРёРµ РјР°С‚СЂРёС†С‹ СЃ СЂРµС„РµСЂРµРЅСЃРЅРѕРіРѕ РјР°СЃСЃРёРІР°
 /// </summary>
 /// <typeparam name="T"></typeparam>
-/// <param name="a">Количество строк</param>
-/// <param name="b">Количество столбцов</param>
-/// <param name="ref">Референсная матрица</param>
+/// <param name="a">РљРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂРѕРє</param>
+/// <param name="b">РљРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚РѕР»Р±С†РѕРІ</param>
+/// <param name="ref">Р РµС„РµСЂРµРЅСЃРЅР°СЏ РјР°С‚СЂРёС†Р°</param>
 template <typename T>
 Matrix<T>::Matrix(unsigned int a, unsigned int b, T** ref)
 {
@@ -426,7 +426,7 @@ Matrix<T> Matrix<T>::Transpose(Matrix ref)
 
 	return Matrix(res.m, res.n, res.matrix);
 }
-//Возвращает матрицу размера (m-1;n-1) с вычеркнутый a-той строкой, b-м столбцом
+//Р’РѕР·РІСЂР°С‰Р°РµС‚ РјР°С‚СЂРёС†Сѓ СЂР°Р·РјРµСЂР° (m-1;n-1) СЃ РІС‹С‡РµСЂРєРЅСѓС‚С‹Р№ a-С‚РѕР№ СЃС‚СЂРѕРєРѕР№, b-Рј СЃС‚РѕР»Р±С†РѕРј
 template <typename T>
 T Matrix<T>::Minor(unsigned int a, unsigned int b)
 {
@@ -493,7 +493,7 @@ Matrix<T>* Matrix<T>::Inverse()
 		res->SetElement(1.0, i, i + this->n);
 	}
 
-	//Обработка первой строки
+	//РћР±СЂР°Р±РѕС‚РєР° РїРµСЂРІРѕР№ СЃС‚СЂРѕРєРё
 	unsigned short z = 0;
 	/*while (res->matrix[0][0] == 0)
 	{
@@ -507,7 +507,7 @@ Matrix<T>* Matrix<T>::Inverse()
 		}
 	}*/
 	T koeff;
-	//для всех строк
+	//РґР»СЏ РІСЃРµС… СЃС‚СЂРѕРє
 	for (unsigned int k = 0; k < this->m-1; k++) {
 		for (unsigned int i = k + 1; i < res->m; i++)
 		{
@@ -555,7 +555,7 @@ void Matrix<T>::Add(Matrix<T>* m2)
 	unsigned int maxM, maxN, minM, minN;
 	if (this->m != m2.m or this->n != m2.m)
 	{
-		cout << "Неправильная размерность при сложении" << endl;
+		cout << "РќРµРїСЂР°РІРёР»СЊРЅР°СЏ СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ РїСЂРё СЃР»РѕР¶РµРЅРёРё" << endl;
 		return;
 	}
 
@@ -571,7 +571,7 @@ void Matrix<T>::Subtraction(Matrix<T>* m2)
 	unsigned int maxM, maxN, minM, minN;
 	if (this->m != m2.m or this->n != m2.m)
 	{
-		cout << "Неправильная размерность при сложении" << endl;
+		cout << "РќРµРїСЂР°РІРёР»СЊРЅР°СЏ СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ РїСЂРё СЃР»РѕР¶РµРЅРёРё" << endl;
 		return;
 	}
 
@@ -585,7 +585,7 @@ template <typename T>
 Matrix<T>* Matrix<T>::Multiplication(Matrix<T>* m1, Matrix<T>* m2)
 {
 	if (m1->n != m2->m) {
-		cout << "Неправильная размерность при умножении" << endl;
+		cout << "РќРµРїСЂР°РІРёР»СЊРЅР°СЏ СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ РїСЂРё СѓРјРЅРѕР¶РµРЅРёРё" << endl;
 		return NULL;
 	}
 	Matrix<T>* res = new Matrix<T>(m1->m, m2->n);
@@ -593,7 +593,7 @@ Matrix<T>* Matrix<T>::Multiplication(Matrix<T>* m1, Matrix<T>* m2)
 	for (unsigned int i = 0; i < res->m; i++)
 		for (unsigned int j = 0; j < res->n; j++)
 			for (unsigned int k = 0; k < m1->n; k++)
-				//Каждый элемент хаполняем по формуле res[i][j] = S(0,n-1)(this[i][k]*m2[k][j])
+				//РљР°Р¶РґС‹Р№ СЌР»РµРјРµРЅС‚ С…Р°РїРѕР»РЅСЏРµРј РїРѕ С„РѕСЂРјСѓР»Рµ res[i][j] = S(0,n-1)(this[i][k]*m2[k][j])
 				res->matrix[i][j] += m1->matrix[i][k] * m2->matrix[k][j];
 	
 
