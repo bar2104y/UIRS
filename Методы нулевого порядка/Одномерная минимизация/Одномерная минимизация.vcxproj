@@ -150,9 +150,11 @@
     <ClCompile Include="Одномерная минимизация.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="evenly.h" />
     <ClInclude Include="fibonachi.h" />
     <ClInclude Include="dihotomia.h" />
     <ClInclude Include="gold.h" />
+    <ClInclude Include="halving.h" />
     <ClInclude Include="kv_intr.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
