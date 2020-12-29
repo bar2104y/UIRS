@@ -7,7 +7,7 @@
 	+Умножение на число
 	+Умножение на матрицу
 	+Детерминант
-	-Обратная
+	+Обратная
 	+Транспонированная
 	+Изменение размерности
 Векторы
@@ -22,38 +22,49 @@
 
 using namespace std;
 
-
-class FloatMatrix
+template <typename T>
+class Matrix
 {
 public:
-	FloatMatrix();
-	FloatMatrix(const FloatMatrix& obj);
-	FloatMatrix(unsigned int a);
-	FloatMatrix(unsigned int a, unsigned int b);//new
-	FloatMatrix(unsigned int a, unsigned int b, float** ref);//new
-	~FloatMatrix();
+	// Конструкторы/деструкторы
+	Matrix();
+	Matrix(const Matrix& obj);
+	Matrix(unsigned int a);
+	Matrix(unsigned int a, unsigned int b);
+	Matrix(unsigned int a, unsigned int b, T** ref);
+	~Matrix();
 
+	// Вывод информации на экран
 	void Print();
-	void PrintRow(unsigned int a);//new
-	void PrintColumn(unsigned int a);//new
+	void PrintRow(unsigned int a);
+	void PrintColumn(unsigned int a);
 
-	float* GetCollumn(unsigned int a);
+	T* GetCollumn(unsigned int a);
 
-	void FillFloat(float v);
-	void SetRow(float* line, unsigned int length, unsigned int k);//new
-	void SetColumn(float* column, unsigned int length, unsigned int k);//new
-	void SetElement(float e, unsigned int a, unsigned int b);
+	// Методы добавления информации
+	void FillFloat(T v);
+	void SetRow(T* line, unsigned int length, unsigned int k);
+	void SetColumn(T* column, unsigned int length, unsigned int k);
+	void SetElement(T e, unsigned int a, unsigned int b);
+
+	//Методы модификации матрицы
 	void Resize(unsigned int a, unsigned int b);
 	void SwapLines(unsigned int a, unsigned int b);
 
 	void Transpose();
-	static FloatMatrix Transpose(FloatMatrix ref);
-	FloatMatrix* Inverse();
-	float Minor(unsigned int a, unsigned int b);//
-	float Det();//new
+	static Matrix Transpose(Matrix ref);
+	Matrix* Inverse();
+	T Minor(unsigned int a, unsigned int b);
+	T Det();
 
+	//Математические операции
+	void Add(Matrix<T>* m2);
+	void Subtraction(Matrix<T>* m2);
+	static Matrix<T>* Multiplication(Matrix<T>* m1, Matrix<T>* m2);
+	void Multiplication(T k);
 
-	FloatMatrix operator + (FloatMatrix& m2)
+	/*
+	Matrix operator + (Matrix& m2)
 	{
 		unsigned int maxM, maxN, minM, minN;
 		if (this->m > m2.m) {
@@ -77,7 +88,7 @@ public:
 		}
 		// Создать новую матрицу максимальной размерности и в нее класть результат
 
-		FloatMatrix res = FloatMatrix(maxM, maxN);
+		Matrix res = Matrix(maxM, maxN);
 
 		for (unsigned int i = 0; i < this->m; i++)
 			for (unsigned int j = 0; j < this->n; j++)
@@ -87,10 +98,10 @@ public:
 			for (unsigned int j = 0; j < m2.n; j++)
 				res.matrix[i][j] += m2.matrix[i][j];
 
-		return FloatMatrix(res.m, res.n, res.matrix);
+		return Matrix(res.m, res.n, res.matrix);
 
 	}//new
-	FloatMatrix operator - (FloatMatrix& m2)
+	Matrix operator - (Matrix& m2)
 	{
 		unsigned int maxM, maxN, minM, minN;
 		if (this->m > m2.m) {
@@ -114,7 +125,7 @@ public:
 		}
 		// Создать новую матрицу максимальной размерности и в нее класть результат
 
-		FloatMatrix res = FloatMatrix(maxM, maxN);
+		Matrix res = Matrix(maxM, maxN);
 
 		for (unsigned int i = 0; i < this->m; i++)
 			for (unsigned int j = 0; j < this->n; j++)
@@ -124,16 +135,16 @@ public:
 			for (unsigned int j = 0; j < m2.n; j++)
 				res.matrix[i][j] -= m2.matrix[i][j];
 
-		return FloatMatrix(res.m, res.n, res.matrix);
+		return Matrix(res.m, res.n, res.matrix);
 
 	}//new
-	FloatMatrix operator * (FloatMatrix& m2)
+	Matrix operator * (Matrix& m2)
 	{
 		if (this->n != m2.m) {
 			cout << "dfsd" << endl;
 			throw "bad size";
 		}
-		FloatMatrix res = FloatMatrix(this->m, m2.n);
+		Matrix res = Matrix(this->m, m2.n);
 		res.FillFloat(0.0);
 		for (unsigned int i = 0; i < res.m; i++)
 			for (unsigned int j = 0; j < res.n; j++)
@@ -141,101 +152,136 @@ public:
 					//Каждый элемент хаполняем по формуле res[i][j] = S(0,n-1)(this[i][k]*m2[k][j])
 					res.matrix[i][j] += this->matrix[i][k] * m2.matrix[k][j];
 		
-		return FloatMatrix(res.m, res.n,res.matrix);
+		return Matrix(res.m, res.n,res.matrix);
 
-	};
-	FloatMatrix operator * (int k)
+	};*/
+	Matrix operator * (int k)
 	{
 		for (unsigned int i = 0; i < this->m; i++)
 			for (unsigned int j = 0; j < this->n; j++)
 				this->matrix[i][j] *= k;
-		return FloatMatrix(this->m, this->n, this->matrix);
+		return Matrix(this->m, this->n, this->matrix);
 	}
-	FloatMatrix operator * (float k)
+	Matrix operator * (T k)
 	{
 		for (unsigned int i = 0; i < this->m; i++)
 			for (unsigned int j = 0; j < this->n; j++)
 				this->matrix[i][j] *= k;
-		return FloatMatrix(this->m, this->n, this->matrix);
+		return Matrix(this->m, this->n, this->matrix);
 	}
-	FloatMatrix operator * (double k)
+	Matrix operator * (double k)
 	{
 		for (unsigned int i = 0; i < this->m; i++)
 			for (unsigned int j = 0; j < this->n; j++)
-				this->matrix[i][j] *= float(k);
-		return FloatMatrix(this->m, this->n, this->matrix);
+				this->matrix[i][j] *= T(k);
+		return Matrix(this->m, this->n, this->matrix);
 	}
 
 private:
 	unsigned int m, n;//строка, столбец
-	float** matrix;
+	T** matrix;
 };
 
-FloatMatrix::FloatMatrix()
+/// <summary>
+/// Конструктор по умолчанию
+/// </summary>
+/// <typeparam name="T">Базовый тип ячеек матрицы</typeparam>
+template <typename T>
+Matrix<T>::Matrix()
 {
 	n = 1;
 	m = 1;
-	matrix = new float* [m];
-	matrix[0] = new float[n];
+	matrix = new T* [m];
+	matrix[0] = new T[n];
 	matrix[0][0] = 0;
 }
-FloatMatrix::FloatMatrix(const FloatMatrix& obj)
+/// <summary>
+/// Глубокий конструктор
+/// </summary>
+/// <param name="obj">Экземпляр существующего объекта</param>
+template <typename T>
+Matrix<T>::Matrix(const Matrix& obj)
 {
 	m = obj.m;
 	n = obj.n;
-	matrix = new float* [m];
+	matrix = new T* [m];
 	for (unsigned int i = 0; i < m; i++)
 	{
-		matrix[i] = new float[n];
+		matrix[i] = new T[n];
 		for (unsigned int j = 0; j < n; j++)
 			matrix[i][j] = 0;
 	}
 
 }
-FloatMatrix::FloatMatrix(unsigned int a)
+/// <summary>
+/// Конструктор квадратной матрицы, заполненной нулями
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="a">Размерность матрицы</param>
+template <typename T>
+Matrix<T>::Matrix(unsigned int a)
 {
 	n = a;
 	m = a;
-	matrix = new float* [m];
+	matrix = new T* [m];
 	for (unsigned int i = 0; i < m; i++)
 	{
-		matrix[i] = new float[n];
+		matrix[i] = new T[n];
 		for (unsigned int j = 0; j < n; j++)
 			matrix[i][j] = 0;
 	}
 }
-FloatMatrix::FloatMatrix(unsigned int a, unsigned int b)
+/// <summary>
+/// Конструктор матрицы, заполненной нулями
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="a">Количество строк</param>
+/// <param name="b">Количество столбцов</param>
+template <typename T>
+Matrix<T>::Matrix(unsigned int a, unsigned int b)
 {
 	m = a;
 	n = b;
-	matrix = new float* [m];
+	matrix = new T* [m];
 	for (unsigned int i = 0; i < m; i++)
 	{
-		matrix[i] = new float[n];
+		matrix[i] = new T[n];
 		for (unsigned int j = 0; j < n; j++)
 			matrix[i][j] = 0;
 	}
 }
-FloatMatrix::FloatMatrix(unsigned int a, unsigned int b, float** ref)
+/// <summary>
+/// Создание матрицы с референсного массива
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="a">Количество строк</param>
+/// <param name="b">Количество столбцов</param>
+/// <param name="ref">Референсная матрица</param>
+template <typename T>
+Matrix<T>::Matrix(unsigned int a, unsigned int b, T** ref)
 {
 	m = a;
 	n = b;
-	matrix = new float* [m];
+	matrix = new T* [m];
 	for (unsigned int i = 0; i < m; i++)
 	{
-		matrix[i] = new float[n];
+		matrix[i] = new T[n];
 		for (unsigned int j = 0; j < n; j++)
 			matrix[i][j] = ref[i][j];
 	}
 }
-FloatMatrix::~FloatMatrix()
+template <typename T>
+Matrix<T>::~Matrix()
 {
 	for (unsigned int i = 0; i < m; i++)
 		delete matrix[i];
 	delete matrix;
 }
 
-void FloatMatrix::FillFloat(float v)
+
+
+template <typename T>
+void Matrix<T>::FillFloat(T v)
 {
 	for (unsigned int i = 0; i < m; i++)
 	{
@@ -243,7 +289,8 @@ void FloatMatrix::FillFloat(float v)
 			matrix[i][j] = v;
 	}
 }
-void FloatMatrix::SetRow(float* line, unsigned int length, unsigned int k)
+template <typename T>
+void Matrix<T>::SetRow(T* line, unsigned int length, unsigned int k)
 {
 	if (length != this->n)
 		throw("Uncorrect length");
@@ -251,7 +298,8 @@ void FloatMatrix::SetRow(float* line, unsigned int length, unsigned int k)
 	for (unsigned int i = 0; i < n; i++)
 		this->matrix[k][i] = line[i];
 }
-void FloatMatrix::SetColumn(float* column, unsigned int length, unsigned int k)
+template <typename T>
+void Matrix<T>::SetColumn(T* column, unsigned int length, unsigned int k)
 {
 	if (length != this->m)
 		throw("Uncorrect length");
@@ -259,14 +307,17 @@ void FloatMatrix::SetColumn(float* column, unsigned int length, unsigned int k)
 	for (unsigned int i = 0; i < this->m; i++)
 		this->matrix[i][k] = column[i];
 }
-void FloatMatrix::SetElement(float e, unsigned int a, unsigned int b)
+template <typename T>
+void Matrix<T>::SetElement(T e, unsigned int a, unsigned int b)
 {
 	if (a<0 || b<0 || a>this->m || b>this->n)
 		throw("Uncorrect index");
 	this->matrix[a][b] = e;
 }
 
-void FloatMatrix::Print()
+
+template <typename T>
+void Matrix<T>::Print()
 {
 	cout.precision(3);
 	cout.width(9);
@@ -281,7 +332,8 @@ void FloatMatrix::Print()
 	}
 	cout << "all" << endl;
 }
-void FloatMatrix::PrintRow(unsigned int a)
+template <typename T>
+void Matrix<T>::PrintRow(unsigned int a)
 {
 	if (a >= this->m)
 		throw("Ucorrect line");
@@ -292,7 +344,8 @@ void FloatMatrix::PrintRow(unsigned int a)
 
 	cout << endl; cout << endl;
 }
-void FloatMatrix::PrintColumn(unsigned int a)
+template <typename T>
+void Matrix<T>::PrintColumn(unsigned int a)
 {
 	if (a >= this->n)
 		throw("Ucorrect line");
@@ -304,29 +357,30 @@ void FloatMatrix::PrintColumn(unsigned int a)
 	cout << endl;
 }
 
-float* FloatMatrix::GetCollumn(unsigned int a)
+template <typename T>
+T* Matrix<T>::GetCollumn(unsigned int a)
 {
 	if (a >= this->n)
 		throw("Ucorrect collumn");
 
-	float* res = new float[this->m];
+	T* res = new T[this->m];
 
 	for (unsigned int j = 0; j < this->m; j++)
 		res[j] = this->matrix[j][a];
 
 	return res;
 }
-
-void FloatMatrix::Resize(unsigned int a, unsigned int b)
+template <typename T>
+void Matrix<T>::Resize(unsigned int a, unsigned int b)
 {
 	if (a == this->m && b == this->n)
 		return;
 	else
 	{
-		float** res = new float* [a] ;
+		T** res = new T* [a] ;
 		for (unsigned int i = 0; i < a; i++)
 		{
-			res[i] = new float[b];
+			res[i] = new T[b];
 			for (unsigned int j = 0; j < b; j++)
 				if ((i < this->m) && (j < this->n))
 					res[i][j] = this->matrix[i][j];
@@ -339,40 +393,44 @@ void FloatMatrix::Resize(unsigned int a, unsigned int b)
 		this->matrix = res;
 	}
 }
-void FloatMatrix::SwapLines(unsigned int a, unsigned int b)
+template <typename T>
+void Matrix<T>::SwapLines(unsigned int a, unsigned int b)
 {
 	for (unsigned int i = 0; i < this->n; i++)
 	{
-		float tmp = this->matrix[a][i];
+		T tmp = this->matrix[a][i];
 		this->matrix[a][i] = this->matrix[b][i];
 		this->matrix[b][i] = tmp;
 	}
 }
 
-void FloatMatrix::Transpose()
+template <typename T>
+void Matrix<T>::Transpose()
 {
 	for (unsigned int i = 0; i < this->m; i++)
 		for (unsigned int j = i + 1; j < this->n; j++)
 		{
-			float tmp = this->matrix[i][j];
+			T tmp = this->matrix[i][j];
 			this->matrix[i][j] = this->matrix[j][i];
 			this->matrix[j][i] = tmp;
 		}
 			
 };
-FloatMatrix FloatMatrix::Transpose(FloatMatrix ref)
+template <typename T>
+Matrix<T> Matrix<T>::Transpose(Matrix ref)
 {
-	FloatMatrix res = FloatMatrix(ref.m, ref.n);
+	Matrix res = Matrix(ref.m, ref.n);
 	for (unsigned int i = 0; i < ref.m; i++)
 		for (unsigned int j = i; j < ref.n; j++)
 			res.matrix[i][j] = ref.matrix[j][i];
 
-	return FloatMatrix(res.m, res.n, res.matrix);
+	return Matrix(res.m, res.n, res.matrix);
 }
 //Возвращает матрицу размера (m-1;n-1) с вычеркнутый a-той строкой, b-м столбцом
-float FloatMatrix::Minor(unsigned int a, unsigned int b)
+template <typename T>
+T Matrix<T>::Minor(unsigned int a, unsigned int b)
 {
-	FloatMatrix res = FloatMatrix(this->m - 1, this->n - 1);
+	Matrix res = Matrix(this->m - 1, this->n - 1);
 	bool o1 = 0, o2 = 0;
 	for (unsigned int i = 0; i < m; i++)
 	{
@@ -396,12 +454,13 @@ float FloatMatrix::Minor(unsigned int a, unsigned int b)
 	return res.Det();
 
 }
-float FloatMatrix::Det()
+template <typename T>
+T Matrix<T>::Det()
 {
 	if (m != n) 
 		throw("Uncorrect size");
 
-	float det = 0.0;
+	T det = 0.0;
 	if (this->m == 1)
 		return(this->matrix[0][0]);
 	else if (this->m == 2)
@@ -420,16 +479,16 @@ float FloatMatrix::Det()
 
 
 }
-
-FloatMatrix* FloatMatrix::Inverse()
+template <typename T>
+Matrix<T>* Matrix<T>::Inverse()
 {
 	if (this->Det() == 0)
 		return NULL;
-	FloatMatrix *res = new FloatMatrix(this->m, this->n * 2);
+	Matrix *res = new Matrix(this->m, this->n * 2);
 	res->FillFloat(0.0);
 	for (unsigned int i = 0; i < this->n; i++)
 	{
-		float* tmp = this->GetCollumn(i);
+		T* tmp = this->GetCollumn(i);
 		res->SetColumn(tmp, this->m, i);
 		res->SetElement(1.0, i, i + this->n);
 	}
@@ -442,12 +501,12 @@ FloatMatrix* FloatMatrix::Inverse()
 		z++;
 		if (z == this->m)
 		{
-			float koeff =  (res->matrix[0][0] - 1) / res->matrix[1][0];
+			T koeff =  (res->matrix[0][0] - 1) / res->matrix[1][0];
 			for (unsigned int i = 0; i < res->n; i++)
 				res->matrix[0][i] -= res->matrix[1][i] * koeff;
 		}
 	}*/
-	float koeff;
+	T koeff;
 	//для всех строк
 	for (unsigned int k = 0; k < this->m-1; k++) {
 		for (unsigned int i = k + 1; i < res->m; i++)
@@ -463,16 +522,23 @@ FloatMatrix* FloatMatrix::Inverse()
 		
 	}
 	
-	for (int k = this->m-1; k > 0; k--)
+	for (unsigned int k = this->m-1; k > 0; k--)
 		for (int i = k-1; i >= 0; i--)
 		{
 			koeff = koeff = res->matrix[i][k] / res->matrix[k][k];
 			for (unsigned int j = k; j < res->n; j++)
 				res->matrix[i][j] -= res->matrix[k][j] * koeff;
-		}	
+		}
+
+	for (unsigned int i = 0; i < this->m;  i++)
+	{
+		koeff =  res->matrix[i][i];
+		for (unsigned int j = 0; j < res->n; j++)
+			res->matrix[i][j] = res->matrix[i][j] / koeff;
+	}
 	
 		
-	FloatMatrix* res2 = new FloatMatrix(res->m, res->m);
+	Matrix* res2 = new Matrix(res->m, res->m);
 	for (unsigned int i = 0; i < res->m; i++)
 		res2->SetColumn(res->GetCollumn(i + res->m), res->m, i);
 
@@ -483,103 +549,178 @@ FloatMatrix* FloatMatrix::Inverse()
 
 
 
+template <typename T>
+void Matrix<T>::Add(Matrix<T>* m2)
+{
+	unsigned int maxM, maxN, minM, minN;
+	if (this->m != m2.m or this->n != m2.m)
+	{
+		cout << "Неправильная размерность при сложении" << endl;
+		return;
+	}
 
-class FloatVector
+	for (unsigned int i = 0; i < this.m; i++)
+		for (unsigned int j = 0; j < this.n; j++)
+			this.matrix[i][j] += m2.matrix[i][j];
+
+	return;
+}
+template <typename T>
+void Matrix<T>::Subtraction(Matrix<T>* m2)
+{
+	unsigned int maxM, maxN, minM, minN;
+	if (this->m != m2.m or this->n != m2.m)
+	{
+		cout << "Неправильная размерность при сложении" << endl;
+		return;
+	}
+
+	for (unsigned int i = 0; i < this.m; i++)
+		for (unsigned int j = 0; j < this.n; j++)
+			this.matrix[i][j] -= m2.matrix[i][j];
+
+	return;
+}
+template <typename T>
+Matrix<T>* Matrix<T>::Multiplication(Matrix<T>* m1, Matrix<T>* m2)
+{
+	if (m1->n != m2->m) {
+		cout << "Неправильная размерность при умножении" << endl;
+		return NULL;
+	}
+	Matrix<T>* res = new Matrix<T>(m1->m, m2->n);
+	res->FillFloat(0.0);
+	for (unsigned int i = 0; i < res->m; i++)
+		for (unsigned int j = 0; j < res->n; j++)
+			for (unsigned int k = 0; k < m1->n; k++)
+				//Каждый элемент хаполняем по формуле res[i][j] = S(0,n-1)(this[i][k]*m2[k][j])
+				res->matrix[i][j] += m1->matrix[i][k] * m2->matrix[k][j];
+	
+
+	return res;
+}
+template <typename T>
+void Matrix<T>::Multiplication(T k)
+{
+	for (unsigned int i = 0; i < this->m; i++)
+		for (unsigned int j = 0; j < this->n; j++)
+			this->matrix[i][j] *= k;
+	return;
+}
+
+
+
+
+
+
+/**********************************************************************************************/
+template <typename T>
+class Vector
 {
 public:
-	FloatVector();
-	FloatVector(unsigned int a);
-	FloatVector(unsigned int a, float e);
-	FloatVector(unsigned int a, float* ref);
-	FloatVector(const FloatVector& obj);
+	Vector();
+	Vector(unsigned int a);
+	Vector(unsigned int a, T e);
+	Vector(unsigned int a, T* ref);
+	Vector(const Vector<T>& obj);
 
 
-	FloatVector operator + (FloatVector& m2)
+	Vector operator + (Vector& m2)
 	{
 		
 		if (this->n != m2.n) {
 			throw "Size error";
 		}
 
-		FloatVector res = FloatVector(this->n);
+		Vector res = Vector(this->n);
 
 		for (unsigned int i = 0; i < this->n; i++)
 			res.vector[i] = m2.vector[i] + this->vector[i];
-
+		
 		return res;
 
 	}
-	float operator*(FloatVector& m2)
+	T operator*(Vector& m2)
 	{
 		if (this->n != m2.n) {
 			throw "Size error";
 		}
-		float res = 0;
+		T res = 0;
 		for (unsigned int i = 0; i < this->n; i++)
 			res += this->vector[i] * m2.vector[i];
 		
 		return res;
 	}
 	
-	
-	static FloatVector* vecMultiply(FloatVector**, unsigned short n);
+	Matrix<T> ToMatrix()
+	{
+		Matrix<T>* res = new Matrix<T>(1, this->n);
+		for (unsigned int i = 0; i < this->n; i++)
+			res->matrix[1][i] = this->vector[i];
+	};
+	static Vector* vecMultiply(Vector**, unsigned short n);
 
 	void Resize(unsigned int a);
-	float Length();
-	FloatVector GetOrt();
+	T Length();
+	Vector GetOrt();
 
-	void FillFloat(float v);
-	void SetElement(float e, unsigned int a);
+	void FillFloat(T v);
+	void SetElement(T e, unsigned int a);
 	void Print();
 
-	~FloatVector();
+	~Vector();
 private:
 	unsigned int n;
-	float* vector;
+	T* vector;
 
 };
-
-FloatVector::FloatVector()
+template <typename T>
+Vector<T>::Vector()
 {
 	n = 0;
-	vector = new float[0];
+	vector = new T[0];
 	for (unsigned int i = 0; i < n; i++)
 		this->vector[i] = 0;
 }
-FloatVector::FloatVector(unsigned int a)
+template <typename T>
+Vector<T>::Vector(unsigned int a)
 {
 	n = a;
-	vector = new float[n];
+	vector = new T[n];
 	for (unsigned int i = 0; i < n; i++)
 		vector[i] = 0;
 }
-FloatVector::FloatVector(unsigned int a, float e) : FloatVector(a)
+template <typename T>
+Vector<T>::Vector(unsigned int a, T e) : Vector(a)
 {
 	for (unsigned int i = 0; i < this->n; i++)
 		this->vector[i] = e;
 }
-FloatVector::FloatVector(unsigned int a, float* ref)
+template <typename T>
+Vector<T>::Vector(unsigned int a, T* ref)
 {
 	n = a;
-	vector = new float[n];
+	vector = new T[n];
 	for (unsigned int i = 0; i < n; i++)
 		vector[i] = ref[i];
 }
-FloatVector::FloatVector(const FloatVector& obj)
+template <typename T>
+Vector<T>::Vector(const Vector& obj)
 {
 	n = obj.n;
-	vector = new float [n];
+	vector = new T [n];
 	for (unsigned int i = 0; i < n; i++)
 		vector[i] = obj.vector[i];
 }
 
-void FloatVector::Resize(unsigned int a)
+template <typename T>
+void Vector<T>::Resize(unsigned int a)
 {
 	if (a == this->n)
 		return;
 	else
 	{
-		float* newVector = new float[a];
+		T* newVector = new T[a];
 		if (a < this->n)
 			for (unsigned int i = 0; i < a; i++)
 				newVector[i] = this->vector[i];
@@ -597,64 +738,70 @@ void FloatVector::Resize(unsigned int a)
 	}
 		
 }
-float FloatVector::Length()
+template <typename T>
+T Vector<T>::Length()
 {
-	float a = 0;
+	T a = 0;
 	for (unsigned int i = 0; i < this->n; i++)
 		a += this->vector[i] * this->vector[i];
 	return sqrt(a);
 }
-FloatVector FloatVector::GetOrt()
+template <typename T>
+Vector<T> Vector<T>::GetOrt()
 {
-	float len = this->Length();
-	FloatVector res = FloatVector(this->n);
+	T len = this->Length();
+	Vector res = Vector(this->n);
 	for (unsigned int i = 0; i < this->n; i++)
 		res.SetElement(this->vector[i] / len, i);
 	return res;
 }
 
-void FloatVector::FillFloat(float v)
+template <typename T>
+void Vector<T>::FillFloat(T v)
 {
 	for (unsigned int i = 0; i < n; i++)
 		vector[i] = v;
-};
-void FloatVector::Print()
+}
+template <typename T>
+void Vector<T>::Print()
 {
 	for (unsigned int i = 0; i < this->n; i++)
 		cout << fixed << vector[i] << "  ";
 
 	cout << endl; cout << endl;
-};
-void FloatVector::SetElement(float e, unsigned int a)
+}
+template <typename T>
+void Vector<T>::SetElement(T e, unsigned int a)
 {
 	vector[a] = e;
 }
 
-FloatVector* FloatVector::vecMultiply(FloatVector** vectors, unsigned short n)
+template <typename T>
+Vector<T>* Vector<T>::vecMultiply(Vector<T>** vectors, unsigned short n)
 {
-	FloatMatrix res = FloatMatrix(n,n);
+	Matrix<T> res = Matrix<T>(n,n);
 	for (unsigned int i = 0; i < n; i++)
 		res.SetElement(1.0, 0, i);
 	for (unsigned int i = 0; i < n-1; i++)
 		res.SetRow(vectors[i]->vector, n, i + 1);
-	FloatVector* ans = new FloatVector(n);
+	Vector* ans = new Vector(n);
 	for (unsigned int i = 0; i < n; i++)
 		ans->vector[i] = res.Minor(0, i);
 	return ans;
-	/*FloatVector operator ^ (FloatVector& m2)
+	/*Vector operator ^ (Vector& m2)
 	{
 		if (this->n != m2.n) {
 			throw "Size error";
 		}
 
-		FloatMatrix res = FloatMatrix(3, this->n);
+		Matrix res = Matrix(3, this->n);
 		for (unsigned int i = 0; i < this->n; i++)
 			res.SetElement(1.0,0,i);
 		res.SetRow(this->vector, this->n, 1);
 		res.SetRow(m2.vector, this->n, 2);
 		res.Print();
 
-		FloatVector ans = FloatVector(this->n);
+		Vector ans = Vector(this->n);
 		ans.FillFloat(0.0);
 		ans.Print();
 
@@ -671,7 +818,8 @@ FloatVector* FloatVector::vecMultiply(FloatVector** vectors, unsigned short n)
 	}*/
 }
 
-FloatVector::~FloatVector()
+template <typename T>
+Vector<T>::~Vector()
 {
 	delete[] vector;
 };

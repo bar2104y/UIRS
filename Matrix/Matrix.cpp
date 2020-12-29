@@ -6,8 +6,8 @@
 
 int main()
 {
-    /*
-    srand(time(NULL));
+    
+    srand(time(0));
     unsigned int m = 4;
     float k = 1;
     float** matrix = new float*[m];
@@ -22,18 +22,18 @@ int main()
             
     }
   
-    FloatMatrix tmp = FloatMatrix(m,m, matrix);
-    tmp.Print();
-    //tmp.SwapLines(0, 1);
-    //tmp.Print();
-    FloatMatrix* tmp2 = new FloatMatrix(m, m);
-    tmp2 = tmp.Inverse();
+    Matrix<float>* tmp = new Matrix<float>(m,m, matrix);
+    Matrix<float>* tmp2 = new Matrix<float>(m);
+    Matrix<float>* tmp3 = new Matrix<float>(m);
+
+    tmp->Print();
+    tmp2 = tmp->Inverse();
     tmp2->Print();
 
-    FloatMatrix tmp3 = *tmp2 * tmp;
-    tmp3.Print();*/
+    tmp3 = Matrix<float>::Multiplication(tmp, tmp2);
+    tmp3->Print();
 
-    FloatVector* a = new FloatVector(3);
+    /*FloatVector* a = new FloatVector(3);
     FloatVector* b = new FloatVector(3);
     a->FillFloat(0.0);
     b->FillFloat(0.0);
@@ -46,7 +46,7 @@ int main()
     mass[1] = b;
 
     c = FloatVector::vecMultiply(mass, 3);
-    c->Print();
+    c->Print();*/
 
 
 }
